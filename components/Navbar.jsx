@@ -8,18 +8,18 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { set } from "mongoose";
 
 const Navbar = () => {
+  const { Data: session } = useSession();
+
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
-  // useEffect(() => {
-  //   const setProviders = async () => {
-  //     const response = await getProviders();
-  //     setProviders(response);
-  //   };
-  //   setProviders();
-  // },[]);
-
-  const userIsLoggedIn = true;
+  useEffect(() => {
+    const settingProviders = async () => {
+      const response = await getProviders();
+      setProviders(response);
+    };
+    settingProviders();
+  }, []);
   const signOut = () => {
     alert("This is all working");
   };
@@ -36,10 +36,10 @@ const Navbar = () => {
         />
         <p className="logo_text">Prompt App</p>
       </Link>
-
+      
       {/* Desktop Navigation */}
       <div className="sm:flex hidden">
-        {userIsLoggedIn ? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
               Create Prompt
@@ -79,7 +79,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       <div className="sm:hidden flex relative">
-        {userIsLoggedIn ? (
+        {session?.user ? (
           <div className="flex">
             <Image
               src="assets/images/logo.svg"
@@ -107,10 +107,10 @@ const Navbar = () => {
                 </Link>
                 <button
                   type="button"
+                  className="black_btn w-full mt-5"
                   onClick={() => {
                     setToggleDropdown(false);
                     signOut();
-                    className="mt-5 w-full black_btn"
                   }}
                 >
                   Sign Out
