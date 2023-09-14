@@ -8,7 +8,7 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { set } from "mongoose";
 
 const Navbar = () => {
-  const { Data: session } = useSession();
+  const { data: session } = useSession();
 
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -20,8 +20,10 @@ const Navbar = () => {
     };
     settingProviders();
   }, []);
-  const signOut = () => {
-    alert("This is all working");
+
+  //signout function
+  const signout = () => {
+    signOut()
   };
 
   return (
@@ -30,8 +32,8 @@ const Navbar = () => {
         <Image
           src="assets/images/logo.svg"
           alt="Prompt Provider logo"
-          width={30}
-          height={30}
+          width={36}
+          height={36}
           className="object-contain"
         />
         <p className="logo_text">Prompt App</p>
@@ -45,13 +47,13 @@ const Navbar = () => {
               Create Prompt
             </Link>
 
-            <button type="button" onClick={signOut} className="outline_btn">
+            <button type="button" onClick={signout} className="outline_btn">
               Sign Out
             </button>
 
             <Link href="/profile">
               <Image
-                src="assets/images/logo.svg"
+                src={session?.user.image}
                 width={32}
                 height={32}
                 className="rounded-full"
@@ -82,9 +84,9 @@ const Navbar = () => {
         {session?.user ? (
           <div className="flex">
             <Image
-              src="assets/images/logo.svg"
-              width={32}
-              height={32}
+              src={session?.user.image}
+              width={36}
+              height={36}
               className="rounded-full"
               alt="Profile"
               onClick={() => setToggleDropdown((preState) => !preState)}
@@ -110,7 +112,7 @@ const Navbar = () => {
                   className="black_btn w-full mt-5"
                   onClick={() => {
                     setToggleDropdown(false);
-                    signOut();
+                    signout();
                   }}
                 >
                   Sign Out
