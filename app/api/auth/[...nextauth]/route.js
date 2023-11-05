@@ -11,7 +11,6 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    // Geting sesssion for next
     async session({ session }) {
       const sessionUser = await User.findOne({ email: session.user.email });
       session.user.id = sessionUser._id.toString();
@@ -27,7 +26,7 @@ const handler = NextAuth({
         // check if a user is already exist
         const userExists = await User.findOne({ email: profile.email });
 
-        // create a new user
+        // if not, create a new user
         if (!userExists) {
           await User.create({
             email: profile.email,
@@ -42,6 +41,7 @@ const handler = NextAuth({
       }
     },
   },
+  // Geting sesssion for next
 });
 
 export { handler as GET, handler as POST };

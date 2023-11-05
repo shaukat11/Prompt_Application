@@ -8,7 +8,6 @@ const Home = () => {
           Discover and Share
           <br className="max-md:hidden" />
           <span className="orange_gradient text-center">
-            {" "}
             AI-Powered Prompts
           </span>
         </h1>
@@ -16,7 +15,6 @@ const Home = () => {
           Promptopia is a an open-source AI prompting tool for modern to
           discover, create and share creative prompts
         </p>
-
         <Feed />
       </section>
     </>
